@@ -5,46 +5,42 @@ import com.example.getmesocialservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/users")
 public class UserResource {
 
   //  List<User> userList = new ArrayList<>();
     @Autowired
     private UserService userService;
 
-    @GetMapping("/user")
-    public User getUser(){
-        return userService.getUser();
-    }
-
-    @PostMapping("/user")
+    @PostMapping
     public User saveUser(@RequestBody User user) {
         return userService.saveUser(user);
     }
 
-    @GetMapping("/user/{userId}")
-    public User getUserById(@PathVariable("userId") int userId){
-       return userService.getUserById(userId);
-    }
+  @GetMapping
+  public List<User> getAllUsers(){
+    return userService.getAllUsers();
+  }
 
-    @GetMapping("/allUsers")
-    public List<User> getAllUsers(){
-        return userService.getAllUsers();
-    }
+  @PutMapping
+  public User updateUser(@RequestBody User user) {
+    return userService.updateUser(user);
+  }
 
-    @PutMapping("/user/{userId}")
-    public User updateUser(@PathVariable("userId") int userId, @RequestBody User user) {
-        return userService.updateUser(userId, user);
-    }
+  @GetMapping("/findById")
+  public Optional<User> getUserById(@RequestParam("userId") String userId){
+    return userService.getUserById(userId);
+  }
 
-    @DeleteMapping("/user/{userId}")
-    public User deleteUser(@PathVariable("userId") int userId){
-        return userService.deleteUser(userId);
-    }
+  @DeleteMapping
+  public void deleteUser(String albumId){
+     userService.deleteUser(albumId);
+  }
+
 }
 
 

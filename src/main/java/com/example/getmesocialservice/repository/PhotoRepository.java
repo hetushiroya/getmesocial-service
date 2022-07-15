@@ -1,7 +1,8 @@
 package com.example.getmesocialservice.repository;
 
 import com.example.getmesocialservice.model.Album;
+import com.example.getmesocialservice.model.Photo;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface AlbumRepository extends MongoRepository<Album,String > {
+public interface PhotoRepository extends MongoRepository<Photo,String > {
 }
