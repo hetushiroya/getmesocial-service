@@ -5,7 +5,9 @@ import com.example.getmesocialservice.service.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -16,7 +18,7 @@ public class PhotoResource {
     PhotoService photoService;
 
     @PostMapping
-    public Photo savePhoto(@RequestBody Photo photo){
+    public Photo savePhoto(@RequestBody @Valid Photo photo){
         return photoService.savePhoto(photo);
     }
 
@@ -31,7 +33,7 @@ public class PhotoResource {
     }
 
     @PutMapping
-    public Photo UpdatePhoto(@RequestBody Photo photo){
+    public Photo UpdatePhoto(@RequestBody @Valid Photo photo){
         return photoService.UpdatePhoto(photo);
     }
 

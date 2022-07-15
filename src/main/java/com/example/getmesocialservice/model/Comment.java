@@ -1,14 +1,20 @@
 package com.example.getmesocialservice.model;
 
+import com.example.getmesocialservice.validation.ValidName;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.Id;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.Min;
 import java.util.Date;
+
 
 public class Comment {
 
     @Id
     private String id;
     private String photoId;
+    @Length(min = 5)
     private String message;
 
     public String getId() {
@@ -19,6 +25,7 @@ public class Comment {
         this.id = id;
     }
 
+    @ValidName
     private String createdBy;
     private Date dateCreated;
 

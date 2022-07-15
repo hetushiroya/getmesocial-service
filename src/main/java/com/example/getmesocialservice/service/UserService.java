@@ -22,8 +22,8 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Optional<User> getUserById(String userId) {
-        return userRepository.findById(userId);
+    public User getUserById(String userId) {
+        return userRepository.findById(userId).get();
     }
 
     public User updateUser(User user) {
@@ -32,6 +32,10 @@ public class UserService {
 
    public void deleteUser(String userId) {
         userRepository.deleteById(userId);
+    }
+
+    public List<User> getUserByName(String name) {
+        return userRepository.findAllByName(name);
     }
 
     /*public User getUser(){

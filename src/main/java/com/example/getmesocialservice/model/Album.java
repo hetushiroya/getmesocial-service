@@ -1,17 +1,23 @@
 package com.example.getmesocialservice.model;
 
 
+import com.example.getmesocialservice.validation.ValidName;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.Id;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.Date;
 
 public class Album {
 
     @Id
     private String id;
+    @Length(max = 10)
     private String name;
     private String description;
     private String coverPic;
+    @ValidName
     private String createdBy;
 
     private Date dateCreated;
