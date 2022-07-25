@@ -1,13 +1,17 @@
 package com.example.getmesocialservice.resource;
 
 import com.example.getmesocialservice.exception.RestrictedInfo;
+import com.example.getmesocialservice.model.FireBaseUser;
 import com.example.getmesocialservice.model.User;
+import com.example.getmesocialservice.service.FireBaseService;
 import com.example.getmesocialservice.service.UserService;
+import com.google.firebase.auth.FirebaseAuthException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -20,9 +24,20 @@ public class UserResource {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private FireBaseService fireBaseService;
+
     @PostMapping
-    public User saveUser(@RequestBody @Valid User user) {
+    public User saveUser(@RequestBody @Valid User user, @RequestHeader("idToken") String idToken) throws IOException, FirebaseAuthException {
+      FireBaseUser fireBaseUser = fireBaseService.authenticate(idToken);
+      if(fireBaseUser!=null){
         return userService.saveUser(user);
+      }
+      else {
+        return null;
+      }
+
+
     }
 
   @GetMapping
@@ -46,16 +61,22 @@ public class UserResource {
 
 
   @PutMapping
-  public User updateUser(@RequestBody @Valid User user) {
-    return userService.updateUser(user);
+  public User updateUser(@RequestBody @Valid User user, @RequestHeader("idToken") String idToken) throws IOException, FirebaseAuthException {
+    FireBaseUser fireBaseUser = fireBaseService.authenticate(idToken);
+    if (fireBaseUser != null) {
+      return userService.updateUser(user);
+    }
+    return null;
   }
 
 
   @DeleteMapping
-  public void deleteUser(String albumId){
-     userService.deleteUser(albumId);
+  public void deleteUser(String albumId, @RequestHeader("idToken") String idToken) throws IOException, FirebaseAuthException {
+    FireBaseUser fireBaseUser = fireBaseService.authenticate(idToken);
+    if (fireBaseUser != null) {
+      userService.deleteUser(albumId);
+    }
   }
-
 }
 
 

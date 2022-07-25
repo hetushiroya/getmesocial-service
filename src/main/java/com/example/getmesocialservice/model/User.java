@@ -10,8 +10,6 @@ import javax.validation.constraints.NotEmpty;
 
 public class User {
 
-
-
     @Id
     private String id;
 
@@ -23,7 +21,8 @@ public class User {
     private String profilePicUrl;
 
 
-    public User(String name, String address, int age, String profilePicUrl) {
+    public User(String id,String name, String address, int age, String profilePicUrl) {
+        this.id = id;
         this.name = name;
         this.address = address;
         this.age = age;

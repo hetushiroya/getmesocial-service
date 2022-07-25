@@ -22,7 +22,8 @@ public class Album {
 
     private Date dateCreated;
 
-    public Album(String name, String description, String coverPic, String createdBy, Date dateCreated) {
+    public Album(String id,String name, String description, String coverPic, String createdBy, Date dateCreated) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.coverPic = coverPic;

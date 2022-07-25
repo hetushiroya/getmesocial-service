@@ -31,7 +31,7 @@ public class AlbumService {
          albumRepository.deleteById(albumId);
     }
 
-    public Optional<Album> getAlbumById(String albumId) {
-        return albumRepository.findById(albumId);
+    public Album getAlbumById(String albumId) {
+        return albumRepository.findById(albumId).get();
     }
 }

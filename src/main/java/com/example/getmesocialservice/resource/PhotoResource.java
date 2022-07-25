@@ -1,11 +1,15 @@
 package com.example.getmesocialservice.resource;
 
+import com.example.getmesocialservice.model.FireBaseUser;
 import com.example.getmesocialservice.model.Photo;
+import com.example.getmesocialservice.service.FireBaseService;
 import com.example.getmesocialservice.service.PhotoService;
+import com.google.firebase.auth.FirebaseAuthException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -17,10 +21,19 @@ public class PhotoResource {
     @Autowired
     PhotoService photoService;
 
+    @Autowired
+    FireBaseService fireBaseService;
+
     @PostMapping
-    public Photo savePhoto(@RequestBody @Valid Photo photo){
-        return photoService.savePhoto(photo);
+    public Photo savePhoto(@RequestBody @Valid Photo photo , @RequestHeader("idToken") String idToken) throws IOException, FirebaseAuthException {
+        FireBaseUser fireBaseUser = fireBaseService.authenticate(idToken);
+        if (fireBaseUser != null) {
+            return photoService.savePhoto(photo);
+        }
+        return null;
     }
+
+
 
     @GetMapping
     public List<Photo> findPhotos(){
@@ -33,13 +46,21 @@ public class PhotoResource {
     }
 
     @PutMapping
-    public Photo UpdatePhoto(@RequestBody @Valid Photo photo){
-        return photoService.UpdatePhoto(photo);
+    public Photo UpdatePhoto(@RequestBody @Valid Photo photo, @RequestHeader("idToken") String idToken) throws IOException, FirebaseAuthException {
+        FireBaseUser fireBaseUser = fireBaseService.authenticate(idToken);
+        if (fireBaseUser != null) {
+            return photoService.UpdatePhoto(photo);
+        }
+        return null;
     }
 
+
     @DeleteMapping
-    public void deletePhoto(String photoId){
-        photoService.deletePhoto(photoId);
+    public void deletePhoto(String photoId, @RequestHeader("idToken") String idToken) throws IOException, FirebaseAuthException {
+        FireBaseUser fireBaseUser = fireBaseService.authenticate(idToken);
+        if (fireBaseUser != null) {
+            photoService.deletePhoto(photoId);
+        }
     }
 
 }
