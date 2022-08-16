@@ -9,7 +9,7 @@ public interface UserRepository extends MongoRepository<User,String> {
 
    List<User> findAllByName(String name);
 
-   List<User> findAllByAddress(String address);
+  // List<User> findAllByAddress(String address);
 
 }
 

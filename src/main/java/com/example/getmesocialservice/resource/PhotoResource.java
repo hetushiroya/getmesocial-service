@@ -1,7 +1,9 @@
 package com.example.getmesocialservice.resource;
 
+import com.example.getmesocialservice.exception.RestrictedInfo;
 import com.example.getmesocialservice.model.FireBaseUser;
 import com.example.getmesocialservice.model.Photo;
+import com.example.getmesocialservice.model.User;
 import com.example.getmesocialservice.service.FireBaseService;
 import com.example.getmesocialservice.service.PhotoService;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -16,6 +18,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/photo")
+@CrossOrigin(origins = "http://localhost:4200")
 public class PhotoResource {
 
     @Autowired
@@ -40,9 +43,9 @@ public class PhotoResource {
         return photoService.findPhoto();
     }
 
-    @GetMapping("/findById")
-    public Optional<Photo> findPhotoById(@RequestParam String photoId){
-        return photoService.findPhotoById(photoId);
+    @GetMapping("/photoId/{photoId}")
+    public Photo findPhotoById(@PathVariable("photoId") String photoId){
+        return photoService.findPhotoById(photoId).get();
     }
 
     @PutMapping
@@ -61,6 +64,11 @@ public class PhotoResource {
         if (fireBaseUser != null) {
             photoService.deletePhoto(photoId);
         }
+    }
+
+    @GetMapping("/{albumId}")
+    public List<Photo> findPhotoByAlbumId(@PathVariable("albumId") String albumId) throws RestrictedInfo {
+        return photoService.findPhotoByAlbumId(albumId);
     }
 
 }

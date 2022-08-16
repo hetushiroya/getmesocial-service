@@ -16,6 +16,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/comment")
+@CrossOrigin(origins = "http://localhost:4200")
 public class CommentResource {
 
     @Autowired
@@ -25,12 +26,8 @@ public class CommentResource {
     FireBaseService fireBaseService;
 
     @PostMapping
-    public Comment saveComment(@RequestBody @Valid Comment comment, @RequestHeader("idToken") String idToken) throws IOException, FirebaseAuthException {
-        FireBaseUser fireBaseUser = fireBaseService.authenticate(idToken);
-        if(fireBaseUser!=null) {
+    public Comment saveComment(@RequestBody @Valid Comment comment) throws IOException, FirebaseAuthException {
             return commentService.saveComment(comment);
-        }
-        return null;
     }
     @GetMapping
     public List<Comment> getAllComments(){
@@ -58,4 +55,9 @@ public class CommentResource {
                 commentService.deleteComment(commentId);
             }
         }
+
+    @GetMapping("/{findByPhotoId}")
+    public List<Comment> getCommentByPhotoId(@PathVariable("findByPhotoId") String photoId){
+        return commentService.getCommentByPhotoId(photoId);
+    }
 }

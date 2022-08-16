@@ -33,4 +33,8 @@ public class PhotoService {
     public void deletePhoto(String photoId) {
         photoRepository.deleteById(photoId);
     }
+
+    public List<Photo> findPhotoByAlbumId(String albumId){
+        return this.photoRepository.findPhotoByAlbumId(albumId);
+    }
 }

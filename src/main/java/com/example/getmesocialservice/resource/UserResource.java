@@ -18,6 +18,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
+@CrossOrigin(origins = "http://localhost:4200") 
 public class UserResource {
 
   //  List<User> userList = new ArrayList<>();
@@ -28,21 +29,22 @@ public class UserResource {
     private FireBaseService fireBaseService;
 
     @PostMapping
-    public User saveUser(@RequestBody @Valid User user, @RequestHeader("idToken") String idToken) throws IOException, FirebaseAuthException {
-      FireBaseUser fireBaseUser = fireBaseService.authenticate(idToken);
-      if(fireBaseUser!=null){
+    public User saveUser(@RequestBody @Valid User user) throws IOException, FirebaseAuthException {
         return userService.saveUser(user);
       }
-      else {
-        return null;
-      }
 
 
-    }
+
 
   @GetMapping
-  public List<User> getAllUsers(){
-    return userService.getAllUsers();
+  public List<User> getAllUsers( @RequestHeader("idToken") String idToken) throws IOException, FirebaseAuthException {
+    FireBaseUser fireBaseUser = fireBaseService.authenticate(idToken);
+    if(fireBaseUser!=null) {
+      return userService.getAllUsers();
+    }
+    else {
+      return null;
+    }
   }
 
   @GetMapping("/findByName")

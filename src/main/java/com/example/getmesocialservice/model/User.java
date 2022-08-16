@@ -15,16 +15,16 @@ public class User {
 
     private String name;
     @Email
-    private String address;
+    private String email;
     private int age;
     @NotEmpty
     private String profilePicUrl;
 
 
-    public User(String id,String name, String address, int age, String profilePicUrl) {
+    public User(String id,String name, String email, int age, String profilePicUrl) {
         this.id = id;
         this.name = name;
-        this.address = address;
+        this.email = email;
         this.age = age;
         this.profilePicUrl = profilePicUrl;
     }
@@ -45,12 +45,12 @@ public class User {
         this.name = name;
     }
 
-    public String getAddress() {
-        return address;
+    public String getEmail() {
+        return email;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public int getAge() {

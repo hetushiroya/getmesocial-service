@@ -16,6 +16,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/album")
+@CrossOrigin(origins = "http://localhost:4200")
 public class AlbumResource {
 
     @Autowired

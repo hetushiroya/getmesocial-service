@@ -1,6 +1,7 @@
 package com.example.getmesocialservice.resource;
 
 import com.amazonaws.services.s3.Headers;
+import com.amazonaws.services.s3.model.PutObjectResult;
 import com.amazonaws.services.s3.model.S3Object;
 import com.example.getmesocialservice.service.FileService;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,17 +22,19 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping(value = "/api/files")
+@CrossOrigin(origins = "http://localhost:4200")
 public class FileResource {
         @Autowired
          private FileService fileService;
 
-    @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public boolean upload(@RequestParam(name="file") MultipartFile file) {
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping( consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<String> upload(@RequestParam(name="file") MultipartFile file) throws IOException {
         return fileService.upload(file);
     }
 
-    @GetMapping(value = "/view")
-    public void view(@RequestParam(name="key") String key, HttpServletResponse response) throws IOException {
+    @GetMapping("/{id}")
+    public void view(@PathVariable("id") String key, HttpServletResponse response) throws IOException {
         S3Object object =  fileService.getFile(key);
         response.setContentType(object.getObjectMetadata().getContentType());
         response.getOutputStream().write(object.getObjectContent().readAllBytes());
